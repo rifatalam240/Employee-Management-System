@@ -1,11 +1,8 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow , Pagination } from "swiper";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 
-// Swiper styles
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
+// Swiper CSS is already imported globally in src/index.css
 
 const testimonials = [
   {
@@ -40,10 +37,9 @@ const testimonials = [
 
 const TestimonialSection = () => {
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-6xl mx-auto px-4 text-center">
-        <h2 className="text-4xl font-bold text-[#063C4C] mb-10">What People Say</h2>
-
+    <section className="py-10 bg-white">
+      <div className="max-w-4xl mx-auto px-2 text-center">
+        <h2 className="text-2xl font-bold text-[#063C4C] mb-6">What People Say</h2>
         <Swiper
           effect={"coverflow"}
           grabCursor={true}
@@ -52,30 +48,30 @@ const TestimonialSection = () => {
           coverflowEffect={{
             rotate: 0,
             stretch: 0,
-            depth: 100,
-            modifier: 2,
+            depth: 80,
+            modifier: 1.5,
             slideShadows: false,
           }}
           pagination={{ clickable: true }}
           modules={[EffectCoverflow, Pagination]}
-          className="w-full max-w-4xl"
+          className="w-full max-w-2xl"
         >
           {testimonials.map((t, index) => (
             <SwiperSlide
               key={index}
-              style={{ width: "320px" }}
-              className="bg-white rounded-xl p-6 shadow-lg flex flex-col items-center
-                filter brightness-75 grayscale transition duration-300 ease-in-out
+              style={{ width: "220px" }}
+              className="bg-white rounded-lg p-3 shadow flex flex-col items-center
+                filter brightness-90 grayscale transition duration-300 ease-in-out
                 swiper-slide-active:filter-none swiper-slide-active:brightness-100 swiper-slide-active:grayscale-0"
             >
               <img
                 src={t.photo}
                 alt={t.name}
-                className="w-24 h-24 rounded-full object-cover border-4 border-[#063C4C] mb-4"
+                className="w-14 h-14 rounded-full object-cover border-2 border-[#063C4C] mb-2"
               />
-              <p className="text-gray-700 italic mb-4">“{t.feedback}”</p>
-              <h4 className="text-xl font-semibold text-[#063C4C]">{t.name}</h4>
-              <p className="text-gray-500">{t.position}</p>
+              <p className="text-gray-700 italic text-sm mb-2 line-clamp-3">“{t.feedback}”</p>
+              <h4 className="text-base font-semibold text-[#063C4C]">{t.name}</h4>
+              <p className="text-xs text-gray-500">{t.position}</p>
             </SwiperSlide>
           ))}
         </Swiper>
