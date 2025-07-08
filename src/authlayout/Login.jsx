@@ -5,12 +5,13 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import UseAuth from "../context/UseAuth";
 import useAxiossecure from "../coustomHook/useAxiossecure";
+import { FcGoogle } from "react-icons/fc"; // ✅ Google Icon Import
 
 const MySwal = withReactContent(Swal);
 
 const Login = () => {
   const { signin, sociallogin } = UseAuth();
-  const axiossecure=useAxiossecure()
+  const axiossecure = useAxiossecure();
   const navigate = useNavigate();
 
   const {
@@ -50,46 +51,40 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
-  try {
-    const result = await sociallogin();
-    const user = result.user;
+    try {
+      const result = await sociallogin();
+      const user = result.user;
 
-    // Backend এ প্রথমে চেক করো ইউজার আছে কিনা
-    const response = await axiossecure.get(`/users?email=${user.email}`);
+      const response = await axiossecure.get(`/users?email=${user.email}`);
+      if (response.data.length === 0) {
+        const socialUserInfo = {
+          name: user.displayName,
+          email: user.email,
+          image: user.photoURL,
+          role: "employee",
+          salary: 10000,
+          bankAccount: "N/A",
+          designation: "Employee",
+          isVerified: false,
+        };
 
-    if (response.data.length === 0) {
-      // ইউজার নেই, নতুন করে যোগ করো
-      const socialUserInfo = {
-        name: user.displayName,
-        email: user.email,
-        image: user.photoURL,
-        role: "employee",
-        salary: 10000,
-        bankAccount: "N/A",
-        designation: "Employee",
-        isVerified: false,
-      };
+        await axiossecure.post("/users", socialUserInfo);
+      }
 
-      await axiossecure.post("/users", socialUserInfo);
-    } else {
-      console.log("User already exists, skipping creation.");
+      Swal.fire({
+        icon: "success",
+        title: "Google Login Successful",
+      });
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: err.message,
+      });
     }
-
-    Swal.fire({
-      icon: "success",
-      title: "Google Login Successful",
-    });
-    navigate("/");
-  } catch (err) {
-    console.error(err);
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed",
-      text: err.message,
-    });
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] px-4">
@@ -98,7 +93,6 @@ const Login = () => {
           Login to Your Account
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Email */}
           <div>
             <label className="block mb-1 text-sm font-medium">Email</label>
             <input
@@ -107,11 +101,12 @@ const Login = () => {
               className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-[#063C4C]"
             />
             {errors.email && (
-              <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
-          {/* Password */}
           <div>
             <label className="block mb-1 text-sm font-medium">Password</label>
             <input
@@ -120,11 +115,12 @@ const Login = () => {
               className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-[#063C4C]"
             />
             {errors.password && (
-              <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             className="w-full bg-[#063C4C] text-white py-2 rounded-md hover:bg-[#052e3a] transition"
@@ -133,12 +129,20 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Google Login Button */}
+        {/* OR Divider */}
+        <div className="flex items-center justify-between my-4">
+          <hr className="w-full border-gray-300" />
+          <span className="px-4 text-gray-500">OR</span>
+          <hr className="w-full border-gray-300" />
+        </div>
+
+        {/* Google Button with Icon */}
         <button
           onClick={handleGoogleLogin}
-          className="w-full bg-red-500 text-white py-2 mt-4 rounded-md hover:bg-red-600 transition"
+          className="w-full border border-violet-600 text-violet-700 py-2 rounded-md flex items-center justify-center gap-3 hover:bg-violet-50 transition"
         >
-          Continue with Google
+          <FcGoogle className="text-xl" />
+          <span className="font-medium">Continue with Google</span>
         </button>
 
         <p className="text-center mt-4 text-sm text-gray-600">

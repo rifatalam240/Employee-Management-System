@@ -35,9 +35,14 @@ const Navbar = () => {
           <NavLink to="/contact-us">Contact</NavLink>
 
           {!user ? (
-            <Button className="bg-[#063C4C] hover:bg-[#0E5D6A] text-white">
-              <NavLink to="/login">Login</NavLink>
-            </Button>
+            <div className="space-x-2">
+              <Button className="bg-[#063C4C] hover:bg-[#0E5D6A] text-white">
+                <NavLink to="/login">Login</NavLink>
+              </Button>
+              <Button className="bg-[#063C4C] hover:bg-[#0E5D6A] text-white">
+                <NavLink to="/register">Register</NavLink>
+              </Button>
+            </div>
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -82,13 +87,23 @@ const Navbar = () => {
           </NavLink>
 
           {!user ? (
-            <NavLink
-              to="/login"
-              className="inline-block bg-[#063C4C] text-white px-4 py-2 rounded"
-              onClick={() => setMenuOpen(false)}
-            >
-              Login
-            </NavLink>
+            <div className="flex flex-col gap-y-2">
+              {" "}
+              <NavLink
+                to="/login"
+                className="inline-block bg-[#063C4C] text-white px-4 w-full py-2 rounded-2xl"
+                onClick={() => setMenuOpen(false)}
+              >
+                Login
+              </NavLink>{" "}
+              <NavLink
+                to="/register"
+                className="inline-block bg-[#063C4C] text-white px-4 w-full py-2 rounded-2xl"
+                onClick={() => setMenuOpen(false)}
+              >
+                Register
+              </NavLink>
+            </div>
           ) : (
             <div className="flex items-center gap-2">
               <img src={user.photoURL} className="w-8 h-8 rounded-full" />
