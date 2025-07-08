@@ -1,26 +1,28 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase.config";
-
+import { useNavigate, Link } from "react-router";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import UseAuth from "../context/UseAuth";
+import useAxiossecure from "../coustomHook/useAxiossecure";
+
 const MySwal = withReactContent(Swal);
 
 const Login = () => {
+  const { signin, sociallogin } = UseAuth();
+  const axiossecure=useAxiossecure()
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
+      await signin(email, password);
 
       MySwal.fire({
         icon: "success",
@@ -47,10 +49,54 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+  try {
+    const result = await sociallogin();
+    const user = result.user;
+
+    // Backend এ প্রথমে চেক করো ইউজার আছে কিনা
+    const response = await axiossecure.get(`/users?email=${user.email}`);
+
+    if (response.data.length === 0) {
+      // ইউজার নেই, নতুন করে যোগ করো
+      const socialUserInfo = {
+        name: user.displayName,
+        email: user.email,
+        image: user.photoURL,
+        role: "employee",
+        salary: 10000,
+        bankAccount: "N/A",
+        designation: "Employee",
+        isVerified: false,
+      };
+
+      await axiossecure.post("/users", socialUserInfo);
+    } else {
+      console.log("User already exists, skipping creation.");
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Google Login Successful",
+    });
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: err.message,
+    });
+  }
+};
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] px-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-[#063C4C]">Login to Your Account</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-[#063C4C]">
+          Login to Your Account
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Email */}
           <div>
@@ -87,9 +133,20 @@ const Login = () => {
           </button>
         </form>
 
+        {/* Google Login Button */}
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full bg-red-500 text-white py-2 mt-4 rounded-md hover:bg-red-600 transition"
+        >
+          Continue with Google
+        </button>
+
         <p className="text-center mt-4 text-sm text-gray-600">
           Don’t have an account?{" "}
-          <Link to="/register" className="text-[#0a5a70] font-medium hover:underline">
+          <Link
+            to="/register"
+            className="text-[#0a5a70] font-medium hover:underline"
+          >
             Register
           </Link>
         </p>

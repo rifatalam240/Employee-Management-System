@@ -13,6 +13,7 @@ const Home = () => {
       <TestimonialSection></TestimonialSection>
       <WhyChooseUs></WhyChooseUs>
       <TeamSection></TeamSection>
+     
     </div>
   );
 };
