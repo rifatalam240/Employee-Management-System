@@ -31,7 +31,7 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6 font-medium text-[#063C4C]">
           <NavLink to="/">Home</NavLink>
-          <NavLink to="/dashboard">Dashboard</NavLink>
+          {user && <NavLink to="/dashboard">Dashboard</NavLink>}
           <NavLink to="/contact-us">Contact</NavLink>
 
           {!user ? (
@@ -79,9 +79,11 @@ const Navbar = () => {
           <NavLink to="/" onClick={() => setMenuOpen(false)}>
             Home
           </NavLink>
-          <NavLink to="/dashboard" onClick={() => setMenuOpen(false)}>
-            Dashboard
-          </NavLink>
+          {user && (
+            <NavLink to="/dashboard" onClick={() => setMenuOpen(false)}>
+              Dashboard
+            </NavLink>
+          )}
           <NavLink to="/contact-us" onClick={() => setMenuOpen(false)}>
             Contact
           </NavLink>
