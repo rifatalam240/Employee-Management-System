@@ -3,12 +3,17 @@ import { Link, Outlet, useLocation } from "react-router";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import UseAuth from "../context/UseAuth";
+import useUserRole from "../coustomHook/useUserRole";
 
 const DashboardLayout = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const pageTitle = location.pathname.split("/")[2] || "Dashboard";
   const { user } = UseAuth();
+
+  const { role, isLoading } = useUserRole(); // ✅ role fetch
+
+  if (isLoading) return <div className="text-center mt-10">Loading...</div>;
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -26,27 +31,33 @@ const DashboardLayout = () => {
         </div>
 
         <nav className="space-y-2">
-          <Link
-            to="/dashboard/admin"
-            className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
-          >
-            <MdDashboard />
-            Admin Dashboard
-          </Link>
-          <Link
-            to="/dashboard/hr"
-            className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
-          >
-            <MdDashboard />
-            HR Dashboard
-          </Link>
-          <Link
-            to="/dashboard/employe"
-            className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
-          >
-            <MdDashboard />
-            Employee Dashboard
-          </Link>
+          {role === "admin" && (
+            <Link
+              to="/dashboard/admin"
+              className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
+            >
+              <MdDashboard />
+              Admin Dashboard
+            </Link>
+          )}
+          {role === "hr" && (
+            <Link
+              to="/dashboard/hr"
+              className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
+            >
+              <MdDashboard />
+              HR Dashboard
+            </Link>
+          )}
+          {role === "employee" && (
+            <Link
+              to="/dashboard/employee"
+              className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
+            >
+              <MdDashboard />
+              Employee Dashboard
+            </Link>
+          )}
         </nav>
       </div>
 

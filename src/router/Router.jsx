@@ -8,6 +8,9 @@ import DashboardLayout from "../dashboardLayout/Dashboard";
 import AdminDashboard from "../dashboardLayout/AdminDashboard";
 import HRDashboard from "../dashboardLayout/HRDashboard";
 import EmployeDashboard from "../dashboardLayout/EmployeDashboard";
+import AdminRoute from "./AdminRoute";
+import HRRoute from "./HRRoute";
+import EmployeeRoute from "./EmployeeRoute";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -27,9 +30,36 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { path: "admin", Component: AdminDashboard },
-      { path: "hr", Component: HRDashboard },
-      { path: "employe", Component: EmployeDashboard },
+      {
+        path: "/dashboard/admin",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <AdminDashboard></AdminDashboard>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/hr",
+        element: (
+          <PrivateRoute>
+            <HRRoute>
+              <HRDashboard></HRDashboard>
+            </HRRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/employee",
+        element: (
+          <PrivateRoute>
+            <EmployeeRoute>
+              <EmployeDashboard></EmployeDashboard>
+            </EmployeeRoute>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);
