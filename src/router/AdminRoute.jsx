@@ -5,9 +5,9 @@ import useUserRole from "../coustomHook/useUserRole";
 
 const AdminRoute = ({ children }) => {
   const { user, loading } = UseAuth();
-  const [role, isLoading] = useUserRole();
+  const { role, loading: roleLoading } = useUserRole();
 
-  if (loading || isLoading) return <Loading_spinner></Loading_spinner>;
+  if (loading || roleLoading) return <Loading_spinner />;
 
   if (user && role === "admin") return children;
 

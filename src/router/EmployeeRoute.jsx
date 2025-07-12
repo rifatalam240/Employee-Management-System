@@ -1,22 +1,17 @@
-import React from "react";
-import { Navigate } from "react-router";
-import useUserRole from "../coustomHook/useUserRole";
-import UseAuth from "../context/UseAuth";
+import { Navigate, Outlet } from "react-router";
 import Loading_spinner from "../Pages/LoadingPage";
+import UseAuth from "../context/UseAuth";
+import useUserRole from "../coustomHook/useUserRole";
 
-const EmployeeRoute = ({ children }) => {
+const EmployeeRoute = () => {
   const { user, loading } = UseAuth();
-  const [role, isRoleLoading] = useUserRole();
+  const { role, loading: roleLoading } = useUserRole();
 
-  if (loading || isRoleLoading) {
-    return <Loading_spinner></Loading_spinner>;
-  }
+  if (loading || roleLoading) return <Loading_spinner />;
 
-  if (user && role === "employee") {
-    return children;
-  }
+  if (user && role === "employee") return <Outlet />;
 
-  return <Navigate to="/" replace />;
+  return <Navigate to="/" />;
 };
 
 export default EmployeeRoute;

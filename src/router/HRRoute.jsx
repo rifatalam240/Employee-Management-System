@@ -1,22 +1,20 @@
-import React from "react";
-import { Navigate } from "react-router";
-import useUserRole from "../coustomHook/useUserRole";
-import UseAuth from "../context/UseAuth";
+import { Navigate, Outlet } from "react-router";
 import Loading_spinner from "../Pages/LoadingPage";
+import UseAuth from "../context/UseAuth";
+import useUserRole from "../coustomHook/useUserRole";
 
-const HRRoute = ({ children }) => {
+const HRRoute = () => {
   const { user, loading } = UseAuth();
-  const [role, isRoleLoading] = useUserRole();
+  const { role, loading: roleLoading } = useUserRole();
 
-  if (loading || isRoleLoading) {
-    return <Loading_spinner></Loading_spinner>;
+  if (loading || roleLoading) return <Loading_spinner />;
+
+  if (user && role && role.toString().toLowerCase() === "hr") {
+    // এখানে Outlet দিয়ে চাইল্ড রাউটগুলো রেন্ডার করবে
+    return <Outlet />;
   }
 
-  if (user && role === "hr") {
-    return children;
-  }
-
-  return <Navigate to="/" replace />;
+  return <Navigate to="/" />;
 };
 
 export default HRRoute;

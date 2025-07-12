@@ -50,41 +50,51 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await sociallogin();
-      const user = result.user;
+const handleGoogleLogin = async () => {
+  try {
+    const result = await sociallogin();
+    console.log("✅ Google login result:", result);
 
-      const response = await axiossecure.get(`/users?email=${user.email}`);
-      if (response.data.length === 0) {
-        const socialUserInfo = {
-          name: user.displayName,
-          email: user.email,
-          image: user.photoURL,
-          role: "employee",
-          salary: 10000,
-          bankAccount: "N/A",
-          designation: "Employee",
-          isVerified: false,
-        };
+    const user = result.user;
+    console.log("✅ Google User:", user);
 
-        await axiossecure.post("/users", socialUserInfo);
-      }
+    const response = await axiossecure.get(`/users?email=${user.email}`);
+    console.log("✅ User exists check response:", response.data);
 
-      Swal.fire({
-        icon: "success",
-        title: "Google Login Successful",
-      });
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: err.message,
-      });
+    if (response.data.length === 0) {
+      const socialUserInfo = {
+        name: user.displayName,
+        email: user.email,
+        image: user.photoURL,
+        role: "employee",
+        salary: 10000,
+        bankAccount: "N/A",
+        designation: "Employee",
+        isVerified: false,
+      };
+
+      console.log("🟢 Sending new user to backend:", socialUserInfo);
+
+      const insertRes = await axiossecure.post("/users", socialUserInfo);
+      console.log("✅ Inserted response:", insertRes.data);
     }
-  };
+
+    Swal.fire({
+      icon: "success",
+      title: "Google Login Successful",
+    });
+
+    navigate("/dashboard");
+  } catch (err) {
+    console.error("❌ Google login error:", err);
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: err.message,
+    });
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] px-4">

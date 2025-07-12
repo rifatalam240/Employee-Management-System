@@ -1,3 +1,4 @@
+// src/coustomHook/useUserRole.jsx
 import { useQuery } from "@tanstack/react-query";
 import useAxiossecure from "./useAxiossecure";
 import UseAuth from "../context/UseAuth";
@@ -15,7 +16,7 @@ const useUserRole = () => {
     },
   });
 
-  return [roleData.role, isLoading];
+  return { role: roleData?.role, loading: isLoading };
 };
 
 export default useUserRole;
