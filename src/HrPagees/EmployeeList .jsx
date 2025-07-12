@@ -3,18 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiossecure from "../coustomHook/useAxiossecure";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { toast } from "react-hot-toast"; // added toast import
 
 const EmployeeList = () => {
   const axiosSecure = useAxiossecure();
   const navigate = useNavigate();
 
-  // Modal state & form data state
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [month, setMonth] = useState("");
   const [year, setYear] = useState(new Date().getFullYear());
 
-  // Fetch employees with react-query
   const { data: employees = [], refetch, isLoading } = useQuery({
     queryKey: ["employees"],
     queryFn: async () => {
@@ -23,7 +22,6 @@ const EmployeeList = () => {
     },
   });
 
-  // Toggle verified status for an employee
   const toggleVerified = async (id, currentStatus) => {
     try {
       await axiosSecure.patch(`/users/verify/${id}`, {
@@ -41,7 +39,6 @@ const EmployeeList = () => {
     }
   };
 
-  // Open payment modal
   const handlePayClick = (employee) => {
     setSelectedEmployee(employee);
     setMonth("");
@@ -49,7 +46,6 @@ const EmployeeList = () => {
     setIsModalOpen(true);
   };
 
-  // Submit payment request
   const handlePayNow = async () => {
     if (!month || !year) {
       Swal.fire("Warning", "Please select both month and year.", "warning");
@@ -66,12 +62,17 @@ const EmployeeList = () => {
     };
 
     try {
-      await axiosSecure.post("/payments", paymentData);
-      Swal.fire("Success!", "Payment request sent.", "success");
+      const res = await axiosSecure.post("/payments", paymentData);
+      if (res.data.insertedId) {
+        toast.success("✅ Payment successful!");
+      }
       setIsModalOpen(false);
     } catch (err) {
-      console.error(err);
-      Swal.fire("Error!", "Payment failed.", "error");
+      if (err.response?.status === 409) {
+        toast.error("❌ Already paid this month!");
+      } else {
+        toast.error("❌ Payment failed!");
+      }
     }
   };
 
@@ -163,23 +164,8 @@ const EmployeeList = () => {
                 className="w-full border border-gray-300 px-2 py-1 rounded"
               >
                 <option value="">Select Month</option>
-                {[
-                  "January",
-                  "February",
-                  "March",
-                  "April",
-                  "May",
-                  "June",
-                  "July",
-                  "August",
-                  "September",
-                  "October",
-                  "November",
-                  "December",
-                ].map((m) => (
-                  <option key={m} value={m}>
-                    {m}
-                  </option>
+                {["January","February","March","April","May","June","July","August","September","October","November","December"].map((m) => (
+                  <option key={m} value={m}>{m}</option>
                 ))}
               </select>
             </div>
