@@ -1,42 +1,29 @@
-// AdminDashboard.jsx
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiossecure from "../coustomHook/useAxiossecure";
 import Swal from "sweetalert2";
 
 const AdminDashboard = () => {
-  const axiossecure = useAxiossecure();
+  const axiosSecure = useAxiossecure();
 
   // Get all users
   const { data: users = [], refetch } = useQuery({
     queryKey: ["all-users"],
     queryFn: async () => {
-      const res = await axiossecure.get("/users");
+      const res = await axiosSecure.get("/users");
       return res.data;
     },
   });
 
-  // Change role
+  // Change user role
   const handleRoleChange = async (id, newRole) => {
     try {
-      await axiossecure.patch(`/users/role/${id}`, { role: newRole });
-      Swal.fire("Updated!", "User role updated.", "success");
+      await axiosSecure.patch(`/users/role/${id}`, { role: newRole });
+      Swal.fire("✅ Updated!", "User role updated successfully.", "success");
       refetch();
     } catch (err) {
       console.error(err);
-      Swal.fire("Error!", err.message, "error");
-    }
-  };
-
-  // Toggle verification
-  const handleVerifyToggle = async (id, currentStatus) => {
-    try {
-      await axiossecure.patch(`/users/verify/${id}`, { isVerified: !currentStatus });
-      Swal.fire("Updated!", "Verification status updated.", "success");
-      refetch();
-    } catch (err) {
-      console.error(err);
-      Swal.fire("Error!", err.message, "error");
+      Swal.fire("❌ Error!", "Failed to update role", "error");
     }
   };
 
@@ -44,72 +31,73 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
-      text: "This action cannot be undone!",
+      text: "This user will be permanently deleted!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#d33",
     });
 
     if (confirm.isConfirmed) {
       try {
-        await axiossecure.delete(`/users/${id}`);
-        Swal.fire("Deleted!", "User deleted.", "success");
+        await axiosSecure.delete(`/users/${id}`);
+        Swal.fire("🗑️ Deleted!", "User has been deleted.", "success");
         refetch();
       } catch (err) {
         console.error(err);
-        Swal.fire("Error!", err.message, "error");
+        Swal.fire("❌ Error!", "Failed to delete user", "error");
       }
     }
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">All Users</h2>
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead className="bg-gray-200">
+    <div className="max-w-6xl mx-auto p-4">
+      <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">👤 All Users (Admin Panel)</h2>
+
+      <div className="overflow-x-auto rounded shadow bg-white">
+        <table className="w-full table-auto min-w-[700px]">
+          <thead className="bg-[#0E5D6A] text-white">
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Verified</th>
-              <th>Actions</th>
+              <th className="py-3 px-4 text-left">Name</th>
+              <th className="py-3 px-4 text-left">Email</th>
+              <th className="py-3 px-4 text-center">Role</th>
+              <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>
-                  <select
-                    className="border px-2 py-1"
-                    value={user.role}
-                    onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                  >
-                    <option value="admin">Admin</option>
-                    <option value="hr">HR</option>
-                    <option value="employee">Employee</option>
-                  </select>
-                </td>
-                <td>
-                  <button
-                    className={`px-3 py-1 text-sm rounded ${user.isVerified ? "bg-green-500" : "bg-yellow-500"}`}
-                    onClick={() => handleVerifyToggle(user._id, user.isVerified)}
-                  >
-                    {user.isVerified ? "Verified" : "Not Verified"}
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 text-sm rounded"
-                    onClick={() => handleDelete(user._id)}
-                  >
-                    Delete
-                  </button>
+            {users.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="text-center py-6 text-gray-500">
+                  No users found.
                 </td>
               </tr>
-            ))}
+            ) : (
+              users.map((user) => (
+                <tr key={user._id} className="hover:bg-gray-50 transition">
+                  <td className="px-4 py-3">{user.name}</td>
+                  <td className="px-4 py-3">{user.email}</td>
+                  <td className="px-4 py-3 text-center">
+                    <select
+                      value={user.role}
+                      onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                      className="border border-gray-300 rounded px-2 py-1"
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="hr">HR</option>
+                      <option value="employee">Employee</option>
+                    </select>
+                  </td>
+                  <td className="px-4 py-3 text-center">
+                    <button
+                      onClick={() => handleDelete(user._id)}
+                      className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

@@ -14,7 +14,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -46,9 +45,19 @@ const EmployeeDetails = () => {
     enabled: !!employee,
   });
 
-  if (empLoading || payLoading) return <p>Loading...</p>;
+  if (empLoading || payLoading)
+    return (
+      <p className="text-center mt-10 text-gray-700 font-semibold">
+        Loading...
+      </p>
+    );
 
-  if (!employee) return <p>No employee data found.</p>;
+  if (!employee)
+    return (
+      <p className="text-center mt-10 text-red-600 font-semibold">
+        No employee data found.
+      </p>
+    );
 
   const chartData = {
     labels: payments.map((p) => `${p.month} ${p.year}`),
@@ -56,7 +65,8 @@ const EmployeeDetails = () => {
       {
         label: "Salary (৳)",
         data: payments.map((p) => p.amount),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        backgroundColor: "rgba(14, 93, 106, 0.7)", // nice teal
+        borderRadius: 4,
       },
     ],
   };
@@ -65,31 +75,74 @@ const EmployeeDetails = () => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      title: { display: true, text: "Salary History" },
+      title: {
+        display: true,
+        text: "Salary History",
+        font: { size: 20, weight: "bold" },
+        color: "#0E5D6A",
+      },
+      tooltip: { enabled: true },
     },
     scales: {
-      x: { title: { display: true, text: "Month-Year" } },
-      y: { title: { display: true, text: "Salary (৳)" }, beginAtZero: true },
+      x: {
+        title: {
+          display: true,
+          text: "Month - Year",
+          font: { size: 14, weight: "600" },
+          color: "#0E5D6A",
+        },
+        ticks: {
+          maxRotation: 45,
+          minRotation: 45,
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Salary (৳)",
+          font: { size: 14, weight: "600" },
+          color: "#0E5D6A",
+        },
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1000,
+          callback: (value) => `৳${value.toLocaleString()}`,
+        },
+      },
     },
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">{employee.name}</h2>
-      <img
-        src={employee.image || "/default-profile.png"}
-        alt={employee.name}
-        className="w-32 h-32 rounded-full mb-4"
-      />
-      <p>
-        <strong>Designation:</strong> {employee.designation}
-      </p>
-      <p>
-        <strong>Email:</strong> {employee.email}
-      </p>
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+        <img
+          src={employee.image || "/default-profile.png"}
+          alt={employee.name}
+          className="w-32 h-32 rounded-full object-cover border-4 border-[#0E5D6A]"
+        />
+        <div className="flex-1">
+          <h2 className="text-3xl font-extrabold text-[#0E5D6A] mb-2">
+            {employee.name}
+          </h2>
+          <p className="text-gray-700 text-lg mb-1">
+            <span className="font-semibold">Designation: </span>
+            {employee.designation || "N/A"}
+          </p>
+          <p className="text-gray-700 text-lg">
+            <span className="font-semibold">Email: </span>
+            {employee.email}
+          </p>
+        </div>
+      </div>
 
-      <div className="mt-6">
-        <Bar data={chartData} options={options} />
+      <div className="mt-10">
+        {payments.length === 0 ? (
+          <p className="text-center text-gray-500 text-lg font-medium">
+            No salary payment history found.
+          </p>
+        ) : (
+          <Bar data={chartData} options={options} />
+        )}
       </div>
     </div>
   );

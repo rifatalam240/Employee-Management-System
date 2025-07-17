@@ -13,12 +13,13 @@ import HRRoute from "./HRRoute";
 import EmployeeRoute from "./EmployeeRoute";
 import WorkSheet from "../employeepages/WorkSheet";
 import PaymentHistory from "../employeepages/PaymentHistory";
-import HRPayment from "../HrPagees/HRPayment";
+// import HRPayment from "../HrPagees/HRPayment";
 import EmployeeList from "../HrPagees/EmployeeList ";
 import EmployeeDetails from "../HrPagees/EmployeeDetails ";
 import Progress from "../HrPagees/Progress ";
 import AllEmployeeList from "../adminpages/AllEmployeeList";
 import Payroll from "../adminpages/Payroll";
+import Payment from "../payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +51,7 @@ export const router = createBrowserRouter([
             element: <AllEmployeeList></AllEmployeeList>,
           },
           { path: "payroll", element: <Payroll></Payroll> },
+          { path: "payments", element: <Payment /> },
         ],
       },
 
@@ -59,7 +61,8 @@ export const router = createBrowserRouter([
         element: <HRRoute />,
         children: [
           { index: true, element: <HRDashboard /> },
-          { path: "paysalary", element: <HRPayment /> },
+
+          // { path: "paysalary", element: <HRPayment /> },
           { path: "employeelist", element: <EmployeeList /> },
 
           {

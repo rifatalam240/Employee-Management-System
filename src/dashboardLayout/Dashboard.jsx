@@ -3,8 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { Users2, CreditCard } from "lucide-react";
-
-import { Link, NavLink, Outlet, useLocation } from "react-router";
+import { NavLink, Outlet, useLocation } from "react-router";
 import { FaHome, FaUsers, FaMoneyCheckAlt, FaChartBar } from "react-icons/fa";
 
 import UseAuth from "../context/UseAuth";
@@ -16,7 +15,7 @@ const DashboardLayout = () => {
   const pageTitle = location.pathname.split("/")[2] || "Dashboard";
   const { user } = UseAuth();
 
-  const { role, isLoading } = useUserRole(); // ✅ role fetch
+  const { role, isLoading } = useUserRole();
 
   if (isLoading) return <div className="text-center mt-10">Loading...</div>;
 
@@ -34,117 +33,146 @@ const DashboardLayout = () => {
             <FaTimes />
           </button>
         </div>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+              isActive ? "bg-gray-700 text-green-300 font-semibold" : ""
+            }`
+          }
+        >
+          <FaHome className="text-lg" />
+          Home
+        </NavLink>
 
         <nav className="space-y-2">
           {role === "admin" && (
             <>
-              {" "}
-              <Link
+              <NavLink
                 to="/dashboard/admin"
-                className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
               >
                 <MdDashboard />
                 Admin Dashboard
-              </Link>{" "}
+              </NavLink>
+
               <NavLink
-                to="/dashboard/admin/all-employee-list"
+                to="/dashboard/admin/allemployeelist"
                 className={({ isActive }) =>
-                  isActive
-                    ? "flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded"
-                    : "flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded"
+                  `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
                 }
               >
                 <Users2 className="w-5 h-5" />
                 All Employees
               </NavLink>
-              <Link
+
+              <NavLink
                 to="/dashboard/admin/payroll"
-                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-yellow-400 font-semibold" : ""
+                  }`
+                }
               >
-                <CreditCard className="w-5 h-5 text-yellow-500" />
-                <span>Payroll</span>
-              </Link>
+                <CreditCard className="w-5 h-5" />
+                Payroll
+              </NavLink>
             </>
           )}
 
           {role === "hr" && (
-            <ul className="space-y-4">
-              <li>
-                <NavLink
-                  to="/dashboard/hr"
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
-                      isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
-                    }`
-                  }
-                >
-                  <FaHome />
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/hr/employeelist"
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
-                      isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
-                    }`
-                  }
-                >
-                  <FaUsers />
-                  Employee List
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/hr/paysalary"
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
-                      isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
-                    }`
-                  }
-                >
-                  <FaMoneyCheckAlt />
-                  Pay Salary
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/hr/progress"
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
-                      isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
-                    }`
-                  }
-                >
-                  <FaChartBar />
-                  Progress
-                </NavLink>
-              </li>
-            </ul>
+            <>
+              <NavLink
+                to="/dashboard/hr"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
+              >
+                <FaHome />
+                Home
+              </NavLink>
+
+              <NavLink
+                to="/dashboard/hr/employeelist"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
+              >
+                <FaUsers />
+                Employee List
+              </NavLink>
+{/* 
+              <NavLink
+                to="/dashboard/hr/paysalary"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
+              >
+                <FaMoneyCheckAlt />
+                Pay Salary
+              </NavLink> */}
+
+              <NavLink
+                to="/dashboard/hr/progress"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
+              >
+                <FaChartBar />
+                Progress
+              </NavLink>
+            </>
           )}
 
           {role === "employee" && (
             <>
-              <Link
+              <NavLink
                 to="/dashboard/employee"
-                className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
               >
                 <MdDashboard />
                 Employee Dashboard
-              </Link>
-              <Link
+              </NavLink>
+
+              <NavLink
                 to="/dashboard/employee/work-sheet"
-                className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
               >
                 📋 Work Sheet
-              </Link>
-              <Link
+              </NavLink>
+
+              <NavLink
                 to="/dashboard/employee/payment-history"
-                className="flex items-center gap-2 p-2 rounded hover:bg-[#052e3a]"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
               >
                 💰 Payment History
-              </Link>
+              </NavLink>
             </>
           )}
         </nav>

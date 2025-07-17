@@ -1,4 +1,4 @@
-import { Navigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import Loading_spinner from "../Pages/LoadingPage";
 import UseAuth from "../context/UseAuth";
 import useUserRole from "../coustomHook/useUserRole";
@@ -9,7 +9,7 @@ const AdminRoute = ({ children }) => {
 
   if (loading || roleLoading) return <Loading_spinner />;
 
-  if (user && role === "admin") return children;
+  if (user && role === "admin") return <Outlet />;
 
   return <Navigate to="/" />;
 };
