@@ -20,6 +20,8 @@ import Progress from "../HrPagees/Progress ";
 import AllEmployeeList from "../adminpages/AllEmployeeList";
 import Payroll from "../adminpages/Payroll";
 import Payment from "../payment/Payment";
+import ContactUs from "../Homepage/ContactUs";
+import AdminMessages from "../adminpages/AdminMessages";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +31,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
+      { path: "contactus", element: <ContactUs /> },
     ],
   },
 
@@ -50,6 +53,7 @@ export const router = createBrowserRouter([
             path: "allemployeelist",
             element: <AllEmployeeList></AllEmployeeList>,
           },
+          { path: "adminmassage", element: <AdminMessages></AdminMessages> },
           { path: "payroll", element: <Payroll></Payroll> },
           { path: "payments", element: <Payment /> },
         ],

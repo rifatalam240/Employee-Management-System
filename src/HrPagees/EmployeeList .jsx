@@ -11,10 +11,8 @@ import Loading_spinner from "../Pages/LoadingPage";
 const EmployeeList = () => {
   const axiosSecure = useAxiossecure();
   const navigate = useNavigate();
-  const { user,role, loading } = UseAuth();
+  const { role, loading } = UseAuth();
   const isHR = role === "hr";
-  // console.log("userrole", user.role);
-  console.log("ishr", isHR);
 
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,12 +31,12 @@ const EmployeeList = () => {
     },
   });
 
+  // Toggle verified status
   const toggleVerified = async (id, currentStatus) => {
     if (!isHR) {
       Swal.fire("Forbidden", "Only HR can update verification", "error");
       return;
     }
-
     try {
       await axiosSecure.patch(`/users/verify/${id}`, {
         isVerified: !currentStatus,
@@ -46,11 +44,11 @@ const EmployeeList = () => {
       Swal.fire("Success", "Verification status updated.", "success");
       refetch();
     } catch (err) {
-      console.error(err);
       Swal.fire("Error!", "Failed to update verification.", "error");
     }
   };
 
+  // Open pay modal
   const handlePayClick = (employee) => {
     setSelectedEmployee(employee);
     setMonth("");
@@ -58,45 +56,52 @@ const EmployeeList = () => {
     setIsModalOpen(true);
   };
 
+  // Pay now
   const handlePayNow = async () => {
     if (!month || !year) {
       Swal.fire("Warning", "Please select both month and year.", "warning");
       return;
+    }
+    // Check if already paid for this employee/month/year
+    try {
+      const checkRes = await axiosSecure.get(
+        `/payroll/check?email=${selectedEmployee.email}&month=${month}&year=${year}`
+      );
+      if (checkRes.data?.alreadyPaid) {
+        Swal.fire("Already Paid", "This employee is already paid for this month!", "warning");
+        return;
+      }
+    } catch (err) {
+      // fallback: allow payment if check endpoint fails
     }
 
     const paymentData = {
       name: selectedEmployee.name,
       email: selectedEmployee.email,
       amount: selectedEmployee.salary,
-      month,
+      month: parseInt(month),
       year: parseInt(year),
       transactionId: uuidv4(),
     };
-
     try {
       const res = await axiosSecure.post("/payments", paymentData);
       if (res.data.insertedId) {
         toast.success("✅ Payment request sent!");
+        Swal.fire("Success", "Payment request sent for approval!", "success");
       }
       setIsModalOpen(false);
       refetch();
     } catch (err) {
       if (err.response?.status === 409) {
-        toast.error("❌ Already paid for this month!");
+        Swal.fire("Already Paid", "This employee is already paid for this month!", "warning");
       } else {
-        toast.error("❌ Payment failed!");
+        Swal.fire("Error", "Payment failed!", "error");
       }
     }
   };
 
-  if (isLoading)
-    return (
-      <p className="text-center mt-10 text-[#0E5D6A] font-semibold">
-        Loading employees...
-      </p>
-    );
-  if (loading) {
-    return <Loading_spinner></Loading_spinner>;
+  if (isLoading || loading) {
+    return <Loading_spinner />;
   }
 
   return (
@@ -104,7 +109,6 @@ const EmployeeList = () => {
       <h2 className="text-3xl font-bold mb-6 text-center text-[#0E5D6A]">
         Employee List
       </h2>
-
       <div className="overflow-x-auto shadow rounded-lg">
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-[#0E5D6A] text-white">
@@ -182,7 +186,6 @@ const EmployeeList = () => {
             <h3 className="text-xl font-semibold mb-4 text-[#0E5D6A]">
               Pay Salary to {selectedEmployee?.name}
             </h3>
-
             <div className="mb-4">
               <label className="block mb-1 font-medium">Salary</label>
               <input
@@ -192,7 +195,6 @@ const EmployeeList = () => {
                 className="w-full border border-gray-300 px-3 py-2 rounded bg-gray-100"
               />
             </div>
-
             <div className="mb-4">
               <label className="block mb-1 font-medium">Month</label>
               <select
@@ -214,14 +216,13 @@ const EmployeeList = () => {
                   "October",
                   "November",
                   "December",
-                ].map((m) => (
-                  <option key={m} value={m}>
+                ].map((m, i) => (
+                  <option key={m} value={i + 1}>
                     {m}
                   </option>
                 ))}
               </select>
             </div>
-
             <div className="mb-4">
               <label className="block mb-1 font-medium">Year</label>
               <input
@@ -233,7 +234,6 @@ const EmployeeList = () => {
                 max={new Date().getFullYear() + 5}
               />
             </div>
-
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setIsModalOpen(false)}

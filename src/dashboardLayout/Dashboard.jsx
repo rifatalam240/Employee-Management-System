@@ -83,6 +83,17 @@ const DashboardLayout = () => {
                 <CreditCard className="w-5 h-5" />
                 Payroll
               </NavLink>
+              <NavLink
+                to="/dashboard/admin/adminmassage"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700 text-blue-400 font-semibold" : ""
+                  }`
+                }
+              >
+                <Users2 className="w-5 h-5" />
+                Admin Massage
+              </NavLink>
             </>
           )}
 
@@ -111,7 +122,7 @@ const DashboardLayout = () => {
                 <FaUsers />
                 Employee List
               </NavLink>
-{/* 
+              {/* 
               <NavLink
                 to="/dashboard/hr/paysalary"
                 className={({ isActive }) =>

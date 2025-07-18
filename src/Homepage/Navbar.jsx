@@ -32,7 +32,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-6 font-medium text-[#063C4C]">
           <NavLink to="/">Home</NavLink>
           {user && <NavLink to="/dashboard">Dashboard</NavLink>}
-          <NavLink to="/contact-us">Contact</NavLink>
+          <NavLink to="/contactus">Contact</NavLink>
 
           {!user ? (
             <div className="space-x-2">
@@ -84,7 +84,7 @@ const Navbar = () => {
               Dashboard
             </NavLink>
           )}
-          <NavLink to="/contact-us" onClick={() => setMenuOpen(false)}>
+          <NavLink to="/contactus" onClick={() => setMenuOpen(false)}>
             Contact
           </NavLink>
 
