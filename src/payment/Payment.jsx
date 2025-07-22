@@ -7,15 +7,10 @@ const Payment = () => {
   const { user } = UseAuth();
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const amount = 120000;
+  const amount = 120000; // Fixed or dynamic amount as needed
 
-  const parsedMonth = month ? parseInt(month, 10) : null;
-  const parsedYear = year ? parseInt(year, 10) : null;
-
-  console.log("Month input:", month);
-  console.log("Year input:", year);
-  console.log("Parsed Month:", parsedMonth);
-  console.log("Parsed Year:", parsedYear);
+  const parsedMonth = parseInt(month, 10);
+  const parsedYear = parseInt(year, 10);
 
   return (
     <StripeProvider>
@@ -28,10 +23,7 @@ const Payment = () => {
           min={1}
           max={12}
           value={month}
-          onChange={(e) => {
-            console.log("Month input value:", e.target.value);
-            setMonth(e.target.value);
-          }}
+          onChange={(e) => setMonth(e.target.value)}
           className="border p-2 rounded w-full"
         />
 
@@ -40,23 +32,15 @@ const Payment = () => {
           placeholder="Year (e.g. 2025)"
           min={2000}
           value={year}
-          onChange={(e) => {
-            console.log("Year input value:", e.target.value);
-            setYear(e.target.value);
-          }}
+          onChange={(e) => setYear(e.target.value)}
           className="border p-2 rounded w-full"
         />
 
         {parsedMonth >= 1 && parsedMonth <= 12 && parsedYear >= 2000 && user?.email ? (
-          <PaymentForm
-            amount={amount}
-            email={user.email}
-            month={parsedMonth}
-            year={parsedYear}
-          />
+          <PaymentForm amount={amount} email={user.email} month={parsedMonth} year={parsedYear} />
         ) : (
           <p className="text-red-600">
-            Please enter valid month (1-12) and year (>=2000)
+            Please enter a valid month (1-12) and year more than 2000!
           </p>
         )}
       </div>
