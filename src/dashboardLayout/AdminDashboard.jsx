@@ -6,8 +6,8 @@ import Swal from "sweetalert2";
 const AdminDashboard = () => {
   const axiosSecure = useAxiossecure();
 
-  // Get all users
-  const { data: users = [], refetch } = useQuery({
+  // Get all users with loading and error state
+  const { data: users = [], isLoading, isError, refetch } = useQuery({
     queryKey: ["all-users"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users");
@@ -49,6 +49,25 @@ const AdminDashboard = () => {
       }
     }
   };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="text-center py-16">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+        <p className="mt-4 text-gray-600">Loading...</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (isError) {
+    return (
+      <div className="text-center py-16 text-red-600 font-semibold">
+        ❌ Failed to load users. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-4">
