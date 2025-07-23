@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router";
 import Root from "./Root";
 import Home from "../Homepage/Home";
@@ -22,6 +21,7 @@ import AdminMessages from "../adminpages/AdminMessages";
 import EmployeeList from "../HrPagees/EmployeeList ";
 import EmployeeDetails from "../HrPagees/EmployeeDetails ";
 import Progress from "../HrPagees/Progress ";
+// import Dashboard from "../adminpages/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +52,7 @@ export const router = createBrowserRouter([
           { path: "allemployeelist", element: <AllEmployeeList /> },
           { path: "adminmassage", element: <AdminMessages /> },
           { path: "payroll", element: <Payroll /> },
+          // { path: "dash", element: <Dashboard></Dashboard> },
           { path: "payments/:id", element: <Payment /> },
         ],
       },

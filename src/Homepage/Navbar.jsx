@@ -7,7 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaReact } from "react-icons/fa"; // FaReact import
 import UseAuth from "../context/UseAuth";
 
 const Navbar = () => {
@@ -17,15 +17,14 @@ const Navbar = () => {
   };
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Dummy user data (Firebase user বসাবে এখানে)
-  // const user = null;
-
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
-        <NavLink to="/" className="text-2xl font-bold text-[#063C4C]">
-          WorkFlowPro
+        {/* Logo + Brand Name */}
+        <NavLink to="/" className="flex items-center gap-2 text-[#063C4C]">
+          {/* React Icon as Logo */}
+          <FaReact size={32} />
+          <span className="text-2xl font-bold">WorkFlowPro</span>
         </NavLink>
 
         {/* Desktop Nav */}
@@ -90,14 +89,13 @@ const Navbar = () => {
 
           {!user ? (
             <div className="flex flex-col gap-y-2">
-              {" "}
               <NavLink
                 to="/login"
                 className="inline-block bg-[#063C4C] text-white px-4 w-full py-2 rounded-2xl"
                 onClick={() => setMenuOpen(false)}
               >
                 Login
-              </NavLink>{" "}
+              </NavLink>
               <NavLink
                 to="/register"
                 className="inline-block bg-[#063C4C] text-white px-4 w-full py-2 rounded-2xl"
@@ -108,7 +106,7 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <img src={user.photoURL} className="w-8 h-8 rounded-full" />
+              <img src={user.photoURL} className="w-8 h-8 rounded-full" alt="User" />
               <button
                 onClick={handlesignout}
                 className="text-red-500 font-semibold"

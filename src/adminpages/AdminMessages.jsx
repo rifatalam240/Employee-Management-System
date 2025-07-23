@@ -5,6 +5,7 @@ import { FaEnvelope, FaRegCalendarAlt, FaUser } from "react-icons/fa";
 const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
   const axiosSecure = useAxiossecure();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -13,6 +14,8 @@ const AdminMessages = () => {
         setMessages(res.data);
       } catch (err) {
         setMessages([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMessages();
@@ -24,7 +27,10 @@ const AdminMessages = () => {
         <h2 className="text-3xl font-bold mb-8 text-center text-[#063C4C]">
           📥 Visitor Messages
         </h2>
-        {messages.length === 0 ? (
+
+        {loading ? (
+          <p className="text-center text-gray-500">Loading...</p>
+        ) : messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <FaEnvelope className="text-6xl text-gray-300 mb-4" />
             <p className="text-lg text-gray-500">No messages yet.</p>
@@ -65,3 +71,4 @@ const AdminMessages = () => {
 };
 
 export default AdminMessages;
+
