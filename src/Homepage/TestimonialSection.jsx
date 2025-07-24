@@ -20,7 +20,7 @@ const testimonials = [
     photo: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
-    name: "Rita Das",
+    name: "Rita Begum",
     position: "CEO, BrightHR",
     feedback:
       "This system helped our HR team save hours every week. Truly a game-changer in employee management.",
@@ -32,6 +32,20 @@ const testimonials = [
     feedback:
       "The dashboard is very user-friendly and helps us keep track of all employee tasks easily.",
     photo: "https://randomuser.me/api/portraits/men/45.jpg",
+  },
+  {
+    name: "Tania Akter",
+    position: "Team Lead, InnovateX",
+    feedback:
+      "Employee tracking has never been easier. Absolutely love the intuitive UI and performance.",
+    photo: "https://randomuser.me/api/portraits/women/65.jpg",
+  },
+  {
+    name: "Imran Kabir",
+    position: "HR Executive, SoftCrest",
+    feedback:
+      "Payroll approval is now just a click away. It’s been a massive boost to our HR process.",
+    photo: "https://randomuser.me/api/portraits/men/66.jpg",
   },
 ];
 
@@ -45,6 +59,7 @@ const TestimonialSection = () => {
           grabCursor={true}
           centeredSlides={true}
           slidesPerView={"auto"}
+          initialSlide={Math.floor(testimonials.length / 2)} // Default center slide
           coverflowEffect={{
             rotate: 0,
             stretch: 0,
