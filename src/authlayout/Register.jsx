@@ -47,7 +47,9 @@ const Register = () => {
       // 1. Upload Image to imgbb
       const formData = new FormData();
       formData.append("image", photo[0]);
-      const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_img_key}`;
+      const url = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_img_key
+      }`;
       const res = await axios.post(url, formData);
       const imageUrl = res.data.data.display_url;
 
@@ -60,6 +62,8 @@ const Register = () => {
         displayName: name,
         photoURL: imageUrl,
       });
+      await user.reload(); // 🔁 এই লাইন খুব গুরুত্বপূর্ণ
+      console.log(user.photoURL);
 
       // 4. Save user info to backend
       const userInfo = {

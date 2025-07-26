@@ -206,7 +206,9 @@ const DashboardLayout = () => {
             {user && (
               <>
                 <img
-                  src={user.photoURL}
+                  src={
+                    user?.photoURL || "https://i.postimg.cc/15m3yGgF/admin.webp"
+                  }
                   alt="User"
                   className="w-8 h-8 rounded-full"
                 />

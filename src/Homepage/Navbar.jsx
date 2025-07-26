@@ -12,6 +12,7 @@ import UseAuth from "../context/UseAuth";
 
 const Navbar = () => {
   const { user, signout } = UseAuth();
+  // console.log("photoURL",user, user?.photoURL);
   const handlesignout = () => {
     signout();
   };
@@ -46,7 +47,9 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <img
-                  src={user.photoURL}
+                  src={
+                    user?.photoURL || "https://i.postimg.cc/15m3yGgF/admin.webp"
+                  }
                   alt="User"
                   className="w-9 h-9 rounded-full cursor-pointer"
                 />
@@ -106,7 +109,13 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <img src={user.photoURL} className="w-8 h-8 rounded-full" alt="User" />
+              <img
+                src={
+                  user?.photoURL || "https://i.postimg.cc/15m3yGgF/admin.webp"
+                }
+                className="w-8 h-8 rounded-full"
+                alt="User"
+              />
               <button
                 onClick={handlesignout}
                 className="text-red-500 font-semibold"

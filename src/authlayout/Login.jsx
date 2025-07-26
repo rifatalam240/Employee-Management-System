@@ -32,7 +32,7 @@ const Login = () => {
         timer: 1500,
       });
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error(error);
       let message = "Login failed!";
@@ -84,7 +84,7 @@ const handleGoogleLogin = async () => {
       title: "Google Login Successful",
     });
 
-    navigate("/dashboard");
+    navigate("/");
   } catch (err) {
     console.error("❌ Google login error:", err);
     Swal.fire({
