@@ -13,6 +13,7 @@ const EmployeeList = () => {
   const navigate = useNavigate();
   const { role, loading } = UseAuth();
   const isHR = role === "hr";
+  // console.log(role);
 
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,7 +69,11 @@ const EmployeeList = () => {
         `/payroll/check?email=${selectedEmployee.email}&month=${month}&year=${year}`
       );
       if (checkRes.data?.alreadyPaid) {
-        Swal.fire("Already Paid", "This employee is already paid for this month!", "warning");
+        Swal.fire(
+          "Already Paid",
+          "This employee is already paid for this month!",
+          "warning"
+        );
         return;
       }
     } catch (err) {
@@ -93,7 +98,11 @@ const EmployeeList = () => {
       refetch();
     } catch (err) {
       if (err.response?.status === 409) {
-        Swal.fire("Already Paid", "This employee is already paid for this month!", "warning");
+        Swal.fire(
+          "Already Paid",
+          "This employee is already paid for this month!",
+          "warning"
+        );
       } else {
         Swal.fire("Error", "Payment failed!", "error");
       }

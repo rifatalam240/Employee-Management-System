@@ -53,13 +53,13 @@ const Login = () => {
 const handleGoogleLogin = async () => {
   try {
     const result = await sociallogin();
-    console.log("✅ Google login result:", result);
+    // console.log("✅ Google login result:", result);
 
     const user = result.user;
-    console.log("✅ Google User:", user);
+    // console.log("✅ Google User:", user);
 
     const response = await axiossecure.get(`/users?email=${user.email}`);
-    console.log("✅ User exists check response:", response.data);
+    // console.log("✅ User exists check response:", response.data);
 
     if (response.data.length === 0) {
       const socialUserInfo = {
@@ -73,10 +73,10 @@ const handleGoogleLogin = async () => {
         isVerified: false,
       };
 
-      console.log("🟢 Sending new user to backend:", socialUserInfo);
+      // console.log("🟢 Sending new user to backend:", socialUserInfo);
 
       const insertRes = await axiossecure.post("/users", socialUserInfo);
-      console.log("✅ Inserted response:", insertRes.data);
+      // console.log("✅ Inserted response:", insertRes.data);
     }
 
     Swal.fire({

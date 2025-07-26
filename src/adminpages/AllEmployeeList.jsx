@@ -15,7 +15,7 @@ const AllEmployeeList = () => {
       return res.data;
     },
   });
-  console.log(users.isFired);
+  // console.log(users.isFired);
 
   // Make HR
   const handleMakeHR = async (id) => {

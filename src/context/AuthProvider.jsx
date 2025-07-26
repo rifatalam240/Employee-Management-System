@@ -117,7 +117,7 @@ const AuthProvider = ({ children }) => {
 
       if (currentUser?.email) {
         try {
-          const res = await fetch(`http://localhost:5000/users/${currentUser.email}`);
+          const res = await fetch(`https://assignment-12-server-pearl-one.vercel.app/users/${currentUser.email}`);
           const dbUser = await res.json();
           setRole(dbUser?.role || null);
         } catch (error) {
