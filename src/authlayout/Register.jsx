@@ -63,7 +63,7 @@ const Register = () => {
         photoURL: imageUrl,
       });
       await user.reload(); // 🔁 এই লাইন খুব গুরুত্বপূর্ণ
-      console.log(user.photoURL);
+      // console.log(user.photoURL);
 
       // 4. Save user info to backend
       const userInfo = {

@@ -21,6 +21,7 @@ import AdminMessages from "../adminpages/AdminMessages";
 import EmployeeList from "../HrPagees/EmployeeList ";
 import EmployeeDetails from "../HrPagees/EmployeeDetails ";
 import Progress from "../HrPagees/Progress ";
+import DashboardHome from "../dashboardLayout/DashboardHome";
 // import Dashboard from "../adminpages/Dashboard";
 
 export const router = createBrowserRouter([
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      { index: true, element: <DashboardHome /> },
       // Admin routes
       {
         path: "admin",

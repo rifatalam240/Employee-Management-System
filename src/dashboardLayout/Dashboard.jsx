@@ -20,7 +20,7 @@ const DashboardLayout = () => {
   if (isLoading) return <div className="text-center mt-10">Loading...</div>;
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-">
       {/* Sidebar */}
       <div
         className={`bg-[#063c4c] text-white w-64 p-4 space-y-4 fixed h-full z-50 transition-transform duration-300 ${
@@ -99,7 +99,7 @@ const DashboardLayout = () => {
 
           {role === "hr" && (
             <>
-              <NavLink
+              {/* <NavLink
                 to="/dashboard/hr"
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 ${
@@ -109,7 +109,7 @@ const DashboardLayout = () => {
               >
                 <FaHome />
                 Home
-              </NavLink>
+              </NavLink> */}
 
               <NavLink
                 to="/dashboard/hr/employeelist"

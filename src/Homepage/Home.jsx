@@ -11,8 +11,9 @@ const Home = () => {
       <BannerCarousel></BannerCarousel>
       <ServicesSection></ServicesSection>
       <TestimonialSection></TestimonialSection>
-      <WhyChooseUs></WhyChooseUs>
+     
       <TeamSection></TeamSection>
+       <WhyChooseUs></WhyChooseUs>
      
     </div>
   );
