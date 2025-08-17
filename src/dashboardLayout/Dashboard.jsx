@@ -192,7 +192,7 @@ const DashboardLayout = () => {
       {/* Main Content */}
       <div className="flex-1 md:ml-64 w-full">
         {/* Topbar */}
-        <div className="flex justify-between items-center bg-white shadow px-4 py-3">
+        <div className="flex justify-between items-center bg-white dark:text-gray-400 dark:bg-gray-900 shadow px-4 py-3">
           <div className="flex items-center gap-4">
             <button
               className="text-2xl md:hidden"

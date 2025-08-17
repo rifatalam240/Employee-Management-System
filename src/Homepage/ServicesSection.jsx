@@ -2,9 +2,9 @@ import { FaClipboardCheck, FaUsersCog, FaMoneyCheckAlt, FaChartLine } from "reac
 
 const ServicesSection = () => {
   return (
-    <section className="py-16 bg-[#F9FDFD]">
+    <section className="py-16 bg-[#F9FDFD] dark:bg-gray-900">
       <div className="max-w-6xl mx-auto px-4 text-center">
-        <h2 className="text-4xl font-bold text-[#063C4C] mb-4">Our Services</h2>
+        <h2 className="text-4xl font-bold text-[#063C4C] dark:text-gray-600 mb-4">Our Services</h2>
         <p className="text-gray-600 mb-10 text-lg">
           We provide smart solutions for your workforce management
         </p>
@@ -15,7 +15,7 @@ const ServicesSection = () => {
             <div className="text-[#063C4C] text-5xl mb-4">
               <FaClipboardCheck />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Task Tracking</h3>
+            <h3 className="text-xl font-semibold dark:text-gray-400 mb-2">Task Tracking</h3>
             <p className="text-gray-600">
               Employees can submit daily work updates and view progress reports.
             </p>
@@ -26,7 +26,7 @@ const ServicesSection = () => {
             <div className="text-[#063C4C] text-5xl mb-4">
               <FaUsersCog />
             </div>
-            <h3 className="text-xl font-semibold mb-2">HR Management</h3>
+            <h3 className="text-xl font-semibold dark:text-gray-400 mb-2">HR Management</h3>
             <p className="text-gray-600">
               HRs can verify employees, manage tasks, and oversee departments.
             </p>
@@ -37,7 +37,7 @@ const ServicesSection = () => {
             <div className="text-[#063C4C] text-5xl mb-4">
               <FaMoneyCheckAlt />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Payroll System</h3>
+            <h3 className="text-xl font-semibold dark:text-gray-400 mb-2">Payroll System</h3>
             <p className="text-gray-600">
               Automatic and secure salary payments with full history tracking.
             </p>
@@ -48,7 +48,7 @@ const ServicesSection = () => {
             <div className="text-[#063C4C] text-5xl mb-4">
               <FaChartLine />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Progress Analytics</h3>
+            <h3 className="text-xl dark:text-gray-400 font-semibold mb-2">Progress Analytics</h3>
             <p className="text-gray-600">
               Get visual reports of employee work trends, time logs, and growth.
             </p>

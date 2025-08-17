@@ -92,13 +92,13 @@ const item = {
 
 export default function KeyFeaturesSection({ features = defaultFeatures }) {
   return (
-    <section className="relative py-16 sm:py-20">
+    <section className="relative py-16 sm:py-20 dark:bg-gray-900 ">
       {/* Background accent */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-slate-50 to-transparent" />
+      <div className="pointer-events-none absolute  inset-0 -z-10 bg-gradient-to-b from-transparent via-slate-50 to-transparent" />
 
       <div className="mx-auto max-w-7xl px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl dark:text-gray-400">
             Key Features
           </h2>
           <p className="mt-3 text-sm sm:text-base text-slate-600">
@@ -133,11 +133,11 @@ function FeatureCard({ title, description, icon: Icon, tag }) {
 
       <div className="flex items-start gap-4">
         <div className="rounded-xl border border-slate-200 p-3 shadow-sm">
-          <Icon className="h-6 w-6" aria-hidden />
+          <Icon className="h-6 w-6 dark:text-gray-400" aria-hidden />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold leading-tight">{title}</h3>
+            <h3 className="text-base font-semibold dark:text-gray-400 leading-tight">{title}</h3>
             {tag && (
               <span className="rounded-full border border-slate-200 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-600">
                 {tag}

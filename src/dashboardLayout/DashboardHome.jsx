@@ -40,37 +40,34 @@ const DashboardHome = () => {
   const [taskTypes, setTaskTypes] = useState({});
   const [latestUsers, setLatestUsers] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [loading, setLoading] = useState(true); // Loading state
 
-  // Fetch stats + charts + latest users
   useEffect(() => {
     if (user) {
-      // Stats
-      axios
-        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboardhome")
-        .then((res) => setStats(res.data))
-        .catch((err) => console.error("Stats error:", err));
-
-      // Monthly Work Hours
-      axios
-        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/monthly-hours")
-        .then((res) => setMonthlyData(res.data))
-        .catch((err) => console.error("Monthly hours error:", err));
-
-      // Task Types
-      axios
-        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/task-types")
-        .then((res) => setTaskTypes(res.data))
-        .catch((err) => console.error("Task types error:", err));
-
-      // Latest Users
-      axios
-        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/latest-fired-users")
-        .then((res) => setLatestUsers(res.data))
-        .catch((err) => console.error("Latest users error:", err));
+      setLoading(true); // Start loading
+      Promise.all([
+        axios
+          .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboardhome")
+          .then((res) => setStats(res.data))
+          .catch((err) => console.error("Stats error:", err)),
+        axios
+          .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/monthly-hours")
+          .then((res) => setMonthlyData(res.data))
+          .catch((err) => console.error("Monthly hours error:", err)),
+        axios
+          .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/task-types")
+          .then((res) => setTaskTypes(res.data))
+          .catch((err) => console.error("Task types error:", err)),
+        axios
+          .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/latest-fired-users")
+          .then((res) => setLatestUsers(res.data))
+          .catch((err) => console.error("Latest users error:", err)),
+      ]).finally(() => setLoading(false)); // Stop loading when all done
     }
   }, [user]);
 
   if (!user) return <p>Loading user...</p>;
+  if (loading) return <p className="text-center mt-10">Loading dashboard...</p>;
 
   // Line Chart Data
   const lineChartData = {
@@ -100,45 +97,37 @@ const DashboardHome = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 min-h-screen bg-base-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="p-4 bg-white rounded-xl shadow-md">
-          <h2 className="text-sm text-gray-500">Total Employees</h2>
-          <p className="text-2xl font-bold text-blue-600">
-            {stats.totalEmployees}
-          </p>
+        <div className="p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
+          <h2 className="text-sm text-gray-500 dark:text-gray-400">Total Employees</h2>
+          <p className="text-2xl font-bold text-blue-600">{stats.totalEmployees}</p>
         </div>
-        <div className="p-4 bg-white rounded-xl shadow-md">
-          <h2 className="text-sm text-gray-500">Total Users</h2>
-          <p className="text-2xl font-bold text-green-600">
-            {stats.totalUsers}
-          </p>
+        <div className="p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
+          <h2 className="text-sm text-gray-500 dark:text-gray-400">Total Users</h2>
+          <p className="text-2xl font-bold text-green-600">{stats.totalUsers}</p>
         </div>
-        <div className="p-4 bg-white rounded-xl shadow-md">
-          <h2 className="text-sm text-gray-500">Total HR</h2>
-          <p className="text-2xl font-bold text-purple-600">
-            {stats.totalHR}
-          </p>
+        <div className="p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
+          <h2 className="text-sm text-gray-500 dark:text-gray-400">Total HR</h2>
+          <p className="text-2xl font-bold text-purple-600">{stats.totalHR}</p>
         </div>
-        <div className="p-4 bg-white rounded-xl shadow-md">
-          <h2 className="text-sm text-gray-500">Verified HR</h2>
-          <p className="text-2xl font-bold text-yellow-600">
-            {stats.verifiedHR}
-          </p>
+        <div className="p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
+          <h2 className="text-sm text-gray-500 dark:text-gray-400">Verified HR</h2>
+          <p className="text-2xl font-bold text-yellow-600">{stats.verifiedHR}</p>
         </div>
       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-md p-4">
+        <div className="lg:col-span-2 p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
           <h2 className="text-lg font-semibold mb-2">Monthly Work Hours</h2>
           <Line data={lineChartData} />
         </div>
 
-        <div className="bg-white rounded-xl shadow-md p-4">
+        <div className="p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
           <h2 className="text-lg font-semibold mb-2">Task Type Overview</h2>
           <Pie data={pieChartData} />
         </div>
@@ -146,40 +135,43 @@ const DashboardHome = () => {
 
       {/* Calendar + Latest Users */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-md p-4">
+        <div className="p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
           <h2 className="text-lg font-semibold mb-2">Calendar</h2>
-          <Calendar value={date} onChange={setDate} />
+          <Calendar
+            value={date}
+            onChange={setDate}
+            className="bg-base-100 dark:bg-gray-900 text-gray-900 dark:text-gray-500 p-2 rounded"
+          />
         </div>
 
-       <div className="bg-white rounded-xl shadow-md p-4">
-  <h2 className="text-lg font-semibold mb-2">Latest Fired Users</h2>
-  <table className="w-full border-collapse">
-    <thead>
-      <tr className="bg-gray-100 text-left">
-        <th className="p-2">Name</th>
-        <th className="p-2">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {latestUsers.slice(0, 5).map((u, i) => (
-        <tr key={i} className="border-b">
-          <td className="p-2">{u.name}</td>
-          <td className="p-2 text-red-500 font-bold flex items-center">
-            <span className="mr-1">🔥</span> Fired
-          </td>
-        </tr>
-      ))}
-      {latestUsers.length === 0 && (
-        <tr>
-          <td colSpan="2" className="p-2 text-gray-500 text-center">
-            No fired users found
-          </td>
-        </tr>
-      )}
-    </tbody>
-  </table>
-</div>
-
+        <div className="p-4 rounded-xl shadow-md bg-base-200 dark:bg-gray-800">
+          <h2 className="text-lg font-semibold mb-2">Latest Fired Users</h2>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100 dark:bg-gray-700 text-left">
+                <th className="p-2">Name</th>
+                <th className="p-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {latestUsers.slice(0, 5).map((u, i) => (
+                <tr key={i} className="border-b border-gray-300 dark:border-gray-600">
+                  <td className="p-2">{u.name}</td>
+                  <td className="p-2 text-red-500 font-bold flex items-center">
+                    <span className="mr-1">🔥</span> Fired
+                  </td>
+                </tr>
+              ))}
+              {latestUsers.length === 0 && (
+                <tr>
+                  <td colSpan="2" className="p-2 text-gray-500 text-center dark:text-gray-400">
+                    No fired users found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -26,9 +26,9 @@ const team = [
 
 const TeamSection = () => {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white dark:bg-gray-900 py-16">
       <div className="max-w-7xl mx-auto px-4 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#063C4C] mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold dark:text-gray-400 text-[#063C4C] mb-12">
           Meet Our <span className="text-[#0a5a70]">Leadership Team</span>
         </h2>
 

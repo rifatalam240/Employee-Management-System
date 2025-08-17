@@ -51,9 +51,9 @@ const testimonials = [
 
 const TestimonialSection = () => {
   return (
-    <section className="py-10 bg-white">
+    <section className="py-10 dark:bg-gray-900 bg-white">
       <div className="max-w-4xl mx-auto px-2 text-center">
-        <h2 className="text-2xl font-bold text-[#063C4C] mb-6">What People Say</h2>
+        <h2 className="text-2xl font-bold text-[#063C4C] mb-6 dark:text-gray-400">What People Say</h2>
         <Swiper
           effect={"coverflow"}
           grabCursor={true}

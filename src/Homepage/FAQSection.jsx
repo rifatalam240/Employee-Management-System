@@ -44,8 +44,8 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="max-w-3xl mx-auto py-12 px-4">
-      <h2 className="text-3xl font-bold text-center mb-8">
+    <section className="max-w-5xl mx-auto py-12 px-4 dark:bg-gray-900">
+      <h2 className="text-3xl font-bold text-center dark:text-gray-400 mb-8">
         ❓ Frequently Asked Questions
       </h2>
 
@@ -53,12 +53,12 @@ export default function FAQSection() {
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="border rounded-2xl shadow-md bg-white overflow-hidden"
+            className="border dark:text-gray-400 rounded-2xl shadow-md bg-white overflow-hidden"
           >
             {/* Question */}
             <button
               onClick={() => toggleFAQ(index)}
-              className="w-full flex justify-between items-center px-6 py-4 text-left font-medium text-lg"
+              className="w-full flex dark:text-gray-500 justify-between items-center px-6 py-4 text-left font-medium text-lg"
             >
               {faq.question}
               <ChevronDown

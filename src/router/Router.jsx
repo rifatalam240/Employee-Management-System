@@ -22,12 +22,14 @@ import EmployeeList from "../HrPagees/EmployeeList ";
 import EmployeeDetails from "../HrPagees/EmployeeDetails ";
 import Progress from "../HrPagees/Progress ";
 import DashboardHome from "../dashboardLayout/DashboardHome";
+import Errorpage from "../Homepage/Errorpage";
 // import Dashboard from "../adminpages/Dashboard";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+     errorElement: <Errorpage></Errorpage>,
     children: [
       { index: true, element: <Home /> },
       { path: "login", element: <Login /> },

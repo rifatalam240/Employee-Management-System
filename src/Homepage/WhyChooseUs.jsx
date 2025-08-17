@@ -66,12 +66,12 @@ const WhyChooseUs = () => {
   const inView = useInView(sectionRef);
 
   return (
-    <section className="bg-[#F9FBFC] py-16" ref={sectionRef}>
+    <section className="bg-[#F9FBFC] dark:bg-gray-900 py-16" ref={sectionRef}>
       <div className="max-w-6xl mx-auto px-4 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#063C4C] mb-2">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#063C4C] dark:text-gray-500 mb-2">
           Why Choose <span className="text-[#0a5a70]">WorkFlowPro?</span>
         </h2>
-        <p className="text-gray-600 mb-10 text-base md:text-lg">
+        <p className="text-gray-600 mb-10 text-base dark:text-gray-500 md:text-lg">
           Trusted by leading companies for transparent, efficient, and secure employee management.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
