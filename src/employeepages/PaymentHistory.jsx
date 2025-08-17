@@ -29,7 +29,7 @@ const PaymentHistory = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4">
-      <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">Payment History</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-center dark:text-gray-500 text-gray-800">Payment History</h2>
 
       <div className="overflow-x-auto bg-white rounded-lg shadow-md">
         <table className="min-w-full table-auto text-left">
@@ -41,12 +41,12 @@ const PaymentHistory = () => {
               <th className="py-3 px-5">Transaction ID</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="dark:bg-gray-900 ">
             {data.payments && data.payments.length > 0 ? (
               data.payments.map((item) => (
                 <tr
                   key={item._id}
-                  className="border-b hover:bg-gray-100 transition"
+                  className="border-b hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                 >
                   <td className="py-3 px-5">{item.month || "N/A"}</td>
                   <td className="py-3 px-5">{item.year || "N/A"}</td>

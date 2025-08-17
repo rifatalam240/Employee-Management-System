@@ -115,8 +115,8 @@ const WorkSheet = () => {
     );
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
+    <div className="max-w-6xl mx-auto dark:bg-gray-900 p-4">
+      <h2 className="text-3xl font-semibold dark:text-gray-300 mb-6 text-center text-gray-800">
         📝 Work Sheet
       </h2>
 
@@ -127,10 +127,10 @@ const WorkSheet = () => {
       >
         {/* Task */}
         <div className="flex-1 min-w-[180px]">
-          <label className="block font-medium mb-1">Task</label>
+          <label className="block font-medium mb-1  dark:text-gray-500 ">Task</label>
           <select
             {...register("task", { required: "Task is required" })}
-            className={`w-full border rounded px-3 py-2 ${
+            className={`w-full dark:bg-gray-900 border rounded px-3 py-2 ${
               errors.task ? "border-red-500" : "border-gray-300"
             }`}
           >
@@ -147,7 +147,7 @@ const WorkSheet = () => {
 
         {/* Hours */}
         <div className="flex-1 min-w-[120px]">
-          <label className="block font-medium mb-1">Hours</label>
+          <label className="block font-medium mb-1 dark:text-gray-500">Hours</label>
           <input
             type="number"
             step="0.5"
@@ -156,7 +156,7 @@ const WorkSheet = () => {
               min: { value: 0.5, message: "Min 0.5 hr" },
               max: { value: 24, message: "Max 24 hr" },
             })}
-            className={`w-full border rounded px-3 py-2 ${
+            className={`w-full dark:bg-gray-900 border rounded px-3 py-2 ${
               errors.hours ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Hours Worked"
@@ -168,11 +168,11 @@ const WorkSheet = () => {
 
         {/* Date */}
         <div className="flex-1 min-w-[160px]">
-          <label className="block font-medium mb-1">Date</label>
+          <label className="block font-medium mb-1  dark:text-gray-500">Date</label>
           <DatePicker
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
-            className="w-full border rounded px-3 py-2"
+            className="w-full dark:bg-gray-900 border rounded px-3 py-2"
             dateFormat="dd MMM yyyy"
             maxDate={new Date()}
             name="date"
@@ -182,14 +182,14 @@ const WorkSheet = () => {
 
         {/* Description */}
         <div className="flex-1 min-w-[200px]">
-          <label className="block font-medium mb-1">Description</label>
+          <label className="block font-medium mb-1 dark:text-gray-500">Description</label>
           <input
             type="text"
             {...register("description", {
               required: "Description required",
               minLength: { value: 10, message: "Minimum 10 characters" },
             })}
-            className={`w-full border rounded px-3 py-2 ${
+            className={`w-full border rounded px-3  py-2  ${
               errors.description ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Brief about your work..."
@@ -237,12 +237,12 @@ const WorkSheet = () => {
                   key={entry._id}
                   className="hover:bg-gray-50 transition text-center"
                 >
-                  <td className="px-4 py-3">{entry.task}</td>
-                  <td className="px-4 py-3">{entry.hours}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 dark:text-gray-400 py-3">{entry.task}</td>
+                  <td className="px-4 dark:text-gray-400 py-3">{entry.hours}</td>
+                  <td className="px-4 dark:text-gray-400 py-3">
                     {new Date(entry.date).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-3 text-left" title={entry.description}>
+                  <td className="px-4 py-3 dark:text-gray-400 text-left" title={entry.description}>
                     {entry?.description?.length > 40
                       ? entry.description.slice(0, 40) + "..."
                       : entry.description || "N/A"}
@@ -273,7 +273,7 @@ const WorkSheet = () => {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <form
             onSubmit={handleEditSubmit}
-            className="bg-white rounded-lg p-6 w-[90%] max-w-md shadow-xl"
+            className="bg-white dark:bg-gray-900 rounded-lg p-6 w-[90%] max-w-md shadow-xl"
           >
             <h3 className="text-xl font-semibold mb-4 text-[#0E5D6A]">
               Edit Work Entry

@@ -6,6 +6,7 @@ import WhyChooseUs from "./WhyChooseUs";
 import TeamSection from "./TeamSection";
 import FAQSection from "./FAQSection";
 import KeyFeaturesSection from "./KeyFeaturesSection";
+import MissionVision from "./MissionVision ";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
       <TestimonialSection></TestimonialSection>
      
       <TeamSection></TeamSection>
+      <MissionVision></MissionVision>
        <FAQSection></FAQSection>
        <WhyChooseUs></WhyChooseUs>
       
