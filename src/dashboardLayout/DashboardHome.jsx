@@ -46,25 +46,25 @@ const DashboardHome = () => {
     if (user) {
       // Stats
       axios
-        .get("http://localhost:5000/api/dashboardhome")
+        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboardhome")
         .then((res) => setStats(res.data))
         .catch((err) => console.error("Stats error:", err));
 
       // Monthly Work Hours
       axios
-        .get("http://localhost:5000/api/dashboard/monthly-hours")
+        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/monthly-hours")
         .then((res) => setMonthlyData(res.data))
         .catch((err) => console.error("Monthly hours error:", err));
 
       // Task Types
       axios
-        .get("http://localhost:5000/api/dashboard/task-types")
+        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/task-types")
         .then((res) => setTaskTypes(res.data))
         .catch((err) => console.error("Task types error:", err));
 
       // Latest Users
       axios
-        .get("http://localhost:5000/api/dashboard/latest-fired-users")
+        .get("https://assignment-12-server-pearl-one.vercel.app/api/dashboard/latest-fired-users")
         .then((res) => setLatestUsers(res.data))
         .catch((err) => console.error("Latest users error:", err));
     }
