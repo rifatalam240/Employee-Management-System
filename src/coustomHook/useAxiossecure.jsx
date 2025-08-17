@@ -11,6 +11,7 @@ const useAxiossecure = () => {
   // console.log("")
 
   useEffect(() => {
+    // if (!user) return;
     const interceptor = axiossecure.interceptors.request.use(
       async (config) => {
         if (user) {

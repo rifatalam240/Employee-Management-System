@@ -1,148 +1,185 @@
-import React from "react";
-import { Bar, Pie } from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Line, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  BarElement,
   CategoryScale,
   LinearScale,
-  ArcElement,
+  PointElement,
+  LineElement,
+  Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import UseAuth from "../context/UseAuth";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
 
 const DashboardHome = () => {
-  // Static Data
-  const barData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  const { user } = UseAuth();
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalEmployees: 0,
+    totalHR: 0,
+    verifiedHR: 0,
+  });
+
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [taskTypes, setTaskTypes] = useState({});
+  const [latestUsers, setLatestUsers] = useState([]);
+  const [date, setDate] = useState(new Date());
+
+  // Fetch stats + charts + latest users
+  useEffect(() => {
+    if (user) {
+      // Stats
+      axios
+        .get("http://localhost:5000/api/dashboardhome")
+        .then((res) => setStats(res.data))
+        .catch((err) => console.error("Stats error:", err));
+
+      // Monthly Work Hours
+      axios
+        .get("http://localhost:5000/api/dashboard/monthly-hours")
+        .then((res) => setMonthlyData(res.data))
+        .catch((err) => console.error("Monthly hours error:", err));
+
+      // Task Types
+      axios
+        .get("http://localhost:5000/api/dashboard/task-types")
+        .then((res) => setTaskTypes(res.data))
+        .catch((err) => console.error("Task types error:", err));
+
+      // Latest Users
+      axios
+        .get("http://localhost:5000/api/dashboard/latest-fired-users")
+        .then((res) => setLatestUsers(res.data))
+        .catch((err) => console.error("Latest users error:", err));
+    }
+  }, [user]);
+
+  if (!user) return <p>Loading user...</p>;
+
+  // Line Chart Data
+  const lineChartData = {
+    labels: monthlyData.map((m) =>
+      `${m._id.year}-${String(m._id.month).padStart(2, "0")}`
+    ),
     datasets: [
       {
-        label: "Hours Worked",
-        data: [120, 150, 130, 180, 200, 170],
-        backgroundColor: "#4f46e5",
-        borderRadius: 8,
+        label: "Work Hours",
+        data: monthlyData.map((m) => m.totalHours),
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59, 130, 246, 0.2)",
+        tension: 0.3,
       },
     ],
   };
 
-  const pieData = {
-    labels: ["Admin", "HR", "Employees"],
+  // Pie Chart Data
+  const pieChartData = {
+    labels: Object.keys(taskTypes),
     datasets: [
       {
-        data: [3, 5, 12],
-        backgroundColor: ["#f43f5e", "#10b981", "#3b82f6"],
+        data: Object.values(taskTypes),
+        backgroundColor: ["#3b82f6", "#facc15", "#22c55e", "#a855f7"],
       },
     ],
   };
 
   return (
-    <div className="p-6 space-y-6 bg-gray-100 min-h-screen">
-      {/* Header */}
-      <h2 className="text-3xl font-semibold text-gray-700">Dashboard</h2>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
 
-      {/* Summary Cards for Admin, HR, and Employee */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h4 className="text-gray-500">Total Employees</h4>
-          <p className="text-2xl font-bold text-gray-700">20</p>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="p-4 bg-white rounded-xl shadow-md">
+          <h2 className="text-sm text-gray-500">Total Employees</h2>
+          <p className="text-2xl font-bold text-blue-600">
+            {stats.totalEmployees}
+          </p>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h4 className="text-gray-500">Pending Payments</h4>
-          <p className="text-2xl font-bold text-gray-700">3</p>
+        <div className="p-4 bg-white rounded-xl shadow-md">
+          <h2 className="text-sm text-gray-500">Total Users</h2>
+          <p className="text-2xl font-bold text-green-600">
+            {stats.totalUsers}
+          </p>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h4 className="text-gray-500">Verified HR</h4>
-          <p className="text-2xl font-bold text-gray-700">5</p>
+        <div className="p-4 bg-white rounded-xl shadow-md">
+          <h2 className="text-sm text-gray-500">Total HR</h2>
+          <p className="text-2xl font-bold text-purple-600">
+            {stats.totalHR}
+          </p>
+        </div>
+        <div className="p-4 bg-white rounded-xl shadow-md">
+          <h2 className="text-sm text-gray-500">Verified HR</h2>
+          <p className="text-2xl font-bold text-yellow-600">
+            {stats.verifiedHR}
+          </p>
         </div>
       </div>
 
-      {/* Chart Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white p-4 rounded-xl shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Monthly Work Hours</h3>
-          <Bar data={barData} />
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2 bg-white rounded-xl shadow-md p-4">
+          <h2 className="text-lg font-semibold mb-2">Monthly Work Hours</h2>
+          <Line data={lineChartData} />
         </div>
-        <div className="bg-white p-4 rounded-xl shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">User Roles</h3>
-          <Pie data={pieData} />
+
+        <div className="bg-white rounded-xl shadow-md p-4">
+          <h2 className="text-lg font-semibold mb-2">Task Type Overview</h2>
+          <Pie data={pieChartData} />
         </div>
       </div>
 
-      {/* Employee-Specific Data */}
-      <div className="bg-white p-4 rounded-xl shadow-sm overflow-x-auto">
-        <h3 className="text-lg font-semibold text-gray-700 mb-4">Employee Details</h3>
-        <table className="w-full text-left text-sm">
-          <thead className="text-gray-500 border-b">
-            <tr>
-              <th className="py-2">Employee</th>
-              <th className="py-2">Email</th>
-              <th className="py-2">Role</th>
-              <th className="py-2">Verified</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b">
-              <td className="py-2">Rifat</td>
-              <td className="py-2">rifat@example.com</td>
-              <td className="py-2">Employee</td>
-              <td className="py-2">✅</td>
-            </tr>
-            <tr className="border-b">
-              <td className="py-2">Nashit</td>
-              <td className="py-2">nashit@example.com</td>
-              <td className="py-2">HR</td>
-              <td className="py-2">✅</td>
-            </tr>
-            <tr>
-              <td className="py-2">Tanvir</td>
-              <td className="py-2">tanvir@example.com</td>
-              <td className="py-2">Employee</td>
-              <td className="py-2">❌</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {/* Calendar + Latest Users */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-md p-4">
+          <h2 className="text-lg font-semibold mb-2">Calendar</h2>
+          <Calendar value={date} onChange={setDate} />
+        </div>
 
-      {/* Payment History Section */}
-      <div className="bg-white p-4 rounded-xl shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-700 mb-4">Recent Payments</h3>
-        <table className="w-full text-left text-sm">
-          <thead className="text-gray-500 border-b">
-            <tr>
-              <th className="py-2">Employee</th>
-              <th className="py-2">Month</th>
-              <th className="py-2">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b">
-              <td className="py-2">Rifat</td>
-              <td className="py-2">June</td>
-              <td className="py-2">৳500</td>
-            </tr>
-            <tr className="border-b">
-              <td className="py-2">Nashit</td>
-              <td className="py-2">June</td>
-              <td className="py-2">৳600</td>
-            </tr>
-            <tr>
-              <td className="py-2">Tanvir</td>
-              <td className="py-2">June</td>
-              <td className="py-2">৳550</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+       <div className="bg-white rounded-xl shadow-md p-4">
+  <h2 className="text-lg font-semibold mb-2">Latest Fired Users</h2>
+  <table className="w-full border-collapse">
+    <thead>
+      <tr className="bg-gray-100 text-left">
+        <th className="p-2">Name</th>
+        <th className="p-2">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {latestUsers.slice(0, 5).map((u, i) => (
+        <tr key={i} className="border-b">
+          <td className="p-2">{u.name}</td>
+          <td className="p-2 text-red-500 font-bold flex items-center">
+            <span className="mr-1">🔥</span> Fired
+          </td>
+        </tr>
+      ))}
+      {latestUsers.length === 0 && (
+        <tr>
+          <td colSpan="2" className="p-2 text-gray-500 text-center">
+            No fired users found
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
 
-      {/* Notifications Section */}
-      <div className="bg-white p-4 rounded-xl shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-700 mb-4">Recent Activities</h3>
-        <ul className="text-sm text-gray-600 space-y-2">
-          <li>✅ HR Nashit verified employee Rifat.</li>
-          <li>💳 Payment of ৳500 completed to Rifat.</li>
-          <li>📝 Employee Tanvir submitted worksheet for June.</li>
-        </ul>
       </div>
     </div>
   );
