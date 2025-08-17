@@ -99,9 +99,9 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] px-4">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center text-[#063C4C]">
+    <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center bg-[#f1f5f9] px-4">
+      <div className="bg-white dark:bg-gray-900 dark:border lg:mt-10 lg:mb-10 dark:border-gray-50 p-8 rounded-lg shadow-md w-full max-w-lg">
+        <h2 className="text-2xl font-bold mb-6 dark:text-gray-300 text-center text-[#063C4C]">
           Register Account
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -143,7 +143,7 @@ const Register = () => {
           {/* Role Dropdown */}
           <select
             {...register("role", { required: true })}
-            className="w-full border px-4 py-2 rounded-md"
+            className="w-full border dark:bg-gray-900 px-4 py-2 rounded-md"
           >
             <option value="">Select Role</option>
             <option value="employee">Employee</option>

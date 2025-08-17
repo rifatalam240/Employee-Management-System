@@ -97,9 +97,9 @@ const handleGoogleLogin = async () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] px-4">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-[#063C4C]">
+    <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] dark:bg-gray-900 px-4">
+      <div className="bg-white dark:bg-gray-900 dark:border dark:border-gray-50 p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center dark:text-gray-300 text-[#063C4C]">
           Login to Your Account
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -155,11 +155,11 @@ const handleGoogleLogin = async () => {
           <span className="font-medium">Continue with Google</span>
         </button>
 
-        <p className="text-center mt-4 text-sm text-gray-600">
+        <p className="text-center mt-4 text-sm dark:text-gray-400 text-gray-600">
           Don’t have an account?{" "}
           <Link
             to="/register"
-            className="text-[#0a5a70] font-medium hover:underline"
+            className="text-[#0a5a70]  dark:text-gray-200 font-medium hover:underline"
           >
             Register
           </Link>
