@@ -22,9 +22,9 @@ const AdminMessages = () => {
   }, [axiosSecure]);
 
   return (
-    <div className="p-4 min-h-[70vh] bg-gradient-to-br from-[#f9fbfc] to-[#e3eaf2]">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8 text-center text-[#063C4C]">
+    <div className= " p-4 min-h-[70vh]  bg-gradient-to-br from-[#f9fbfc] to-[#e3eaf2]">
+      <div className="max-w-4xl mx-auto dark:bg-gray-900 h-[70vh]">
+        <h2 className="text-3xl font-bold mb-8 text-center dark:text-gray-400 text-[#063C4C]">
           📥 Visitor Messages
         </h2>
 
@@ -36,7 +36,7 @@ const AdminMessages = () => {
             <p className="text-lg text-gray-500">No messages yet.</p>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2 dark:px-4">
             {messages.map((msg, idx) => (
               <div
                 key={idx}

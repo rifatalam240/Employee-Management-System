@@ -58,7 +58,7 @@ const Payroll = () => {
   }
 
   return (
-    <div className="p-4 max-w-6xl mx-auto">
+    <div className="p-4 max-w-6xl mx-auto dark:bg-gray-900">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Payroll Approval Requests</h2>
         <button
@@ -150,7 +150,7 @@ const Payroll = () => {
         </div>
       )} */}
       {viewMode === "table" ? (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto dark:bg-gray-900">
           <table className="w-full table-auto text-sm border">
             <thead className="bg-[#0E5D6A] text-white">
               <tr>
@@ -199,9 +199,9 @@ const Payroll = () => {
           </table>
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 dark:bg-gray-900">
           {filteredPayrolls.map((pay) => (
-            <div key={pay._id} className="p-4 bg-white border rounded shadow">
+            <div key={pay._id} className="p-4 bg-white dark:bg-gray-900 border rounded shadow">
               <h3 className="font-semibold">{pay.name}</h3>
               <p>{pay.email}</p>
               <p>Month: {pay.month}</p>

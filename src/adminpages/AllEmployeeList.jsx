@@ -86,14 +86,14 @@ const AllEmployeeList = () => {
   if (isLoading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="p-4">
+    <div className="p-4 dark:bg-gray-900">
       <h2 className="text-2xl font-bold text-center mb-4">
         All Verified Employees
       </h2>
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
-            <tr className="bg-gray-100 text-left">
+            <tr className="bg-gray-100 dark:text-gray-900 text-left">
               <th>Name</th>
               <th>Designation</th>
               <th>Make HR</th>
@@ -145,7 +145,7 @@ const AllEmployeeList = () => {
                       defaultValue={user.salary || 0}
                       min={user.salary || 0}
                       disabled={user.isFired}
-                      className="w-24 border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-200"
+                      className="w-24 border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-200 dark:disabled:bg-gray-700"
                       onBlur={(e) =>
                         handleSalaryUpdate(
                           user._id,
